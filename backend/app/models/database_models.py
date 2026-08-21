@@ -58,3 +58,19 @@ class SystemSettings(Base):
     
     key = Column(String, primary_key=True, index=True)
     value = Column(String, nullable=False)
+
+class Flashcard(Base):
+    __tablename__ = "flashcards"
+    
+    id = Column(String, primary_key=True, index=True)
+    collection_id = Column(String, ForeignKey("collections.id"), nullable=False)
+    question = Column(Text, nullable=False)
+    answer = Column(Text, nullable=False)
+    
+    # Space-Repetition metrics (SM-2)
+    interval_days = Column(Integer, default=1)
+    ease_factor = Column(Float, default=2.5)
+    repetitions = Column(Integer, default=0)
+    next_review_date = Column(String, default=lambda: datetime.now().strftime("%Y-%m-%d"))
+    
+    collection = relationship("Collection")

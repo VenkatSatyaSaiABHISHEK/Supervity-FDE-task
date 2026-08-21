@@ -22,6 +22,7 @@ export const Analytics: React.FC = () => {
   const [analytics, setAnalytics] = useState<AnalyticsResponse | null>(null);
   const [docs, setDocs] = useState<DocumentResponse[]>([]);
   const [sessions, setSessions] = useState<ChatSessionResponse[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const fetchAnalyticsData = async () => {
     try {
@@ -51,9 +52,22 @@ export const Analytics: React.FC = () => {
   };
 
   useEffect(() => {
-    fetchAnalyticsData();
-    fetchDocsData();
-    fetchSessionsData();
+    const initLoad = async () => {
+      setIsLoading(true);
+      try {
+        await Promise.all([
+          fetchAnalyticsData(),
+          fetchDocsData(),
+          fetchSessionsData()
+        ]);
+      } catch (e) {
+        console.error("Initial load error:", e);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    initLoad();
+
     const interval = setInterval(() => {
       fetchAnalyticsData();
       fetchDocsData();
@@ -67,19 +81,19 @@ export const Analytics: React.FC = () => {
   const documentsCount = analytics ? analytics.documents_count : 0;
 
   // Real type calculations
-  const totalDocs = docs.length;
-  const pdfDocs = docs.filter(d => d.type === 'pdf').length;
-  const imgDocs = docs.filter(d => d.type === 'image').length;
+  const totalDocs = Array.isArray(docs) ? docs.length : 0;
+  const pdfDocs = Array.isArray(docs) ? docs.filter(d => d.type === 'pdf').length : 0;
+  const imgDocs = Array.isArray(docs) ? docs.filter(d => d.type === 'image').length : 0;
 
   const pdfPct = totalDocs > 0 ? Math.round((pdfDocs / totalDocs) * 100) : 0;
   const imgPct = totalDocs > 0 ? Math.round((imgDocs / totalDocs) * 100) : 0;
   const textPct = totalDocs > 0 ? Math.max(0, 100 - pdfPct - imgPct) : 0;
 
   // Real prompt message counting across sessions
-  const totalPrompts = sessions.reduce((acc, s) => {
-    const userMsgs = s.messages ? s.messages.filter((m: any) => m.role === 'user').length : 0;
+  const totalPrompts = Array.isArray(sessions) ? sessions.reduce((acc, s) => {
+    const userMsgs = s && Array.isArray(s.messages) ? s.messages.filter((m: any) => m.role === 'user').length : 0;
     return acc + userMsgs;
-  }, 0);
+  }, 0) : 0;
 
   // Real mapped metrics
   const metrics = [
@@ -112,9 +126,9 @@ export const Analytics: React.FC = () => {
     },
     { 
       label: 'Chat Sessions', 
-      value: `${sessions.length} Threads`, 
+      value: `${Array.isArray(sessions) ? sessions.length : 0} Threads`, 
       total: `Active study conversations`, 
-      pct: sessions.length > 0 ? 100 : 0, 
+      pct: Array.isArray(sessions) && sessions.length > 0 ? 100 : 0, 
       color: 'bg-emerald-500', 
       icon: Clock,
       description: 'The number of separate chat threads created in your AI history.'
@@ -122,16 +136,16 @@ export const Analytics: React.FC = () => {
   ];
 
   // Parse logs from backend rotated app.log trace lines
-  const systemLogs = analytics && analytics.console_logs ? analytics.console_logs.map((log) => {
-    const parts = log.split('] ');
+  const systemLogs = analytics && Array.isArray(analytics.console_logs) ? analytics.console_logs.map((log) => {
+    const parts = String(log).split('] ');
     let time = new Date().toLocaleTimeString();
     let type = 'INFO';
-    let msg = log;
+    let msg = String(log);
     
-    const timeMatch = log.match(/\d{4}-\d{2}-\d{2} (\d{2}:\d{2}:\d{2})/);
+    const timeMatch = String(log).match(/\d{4}-\d{2}-\d{2} (\d{2}:\d{2}:\d{2})/);
     if (timeMatch) time = timeMatch[1];
     
-    const typeMatch = log.match(/\[(INFO|WARNING|ERROR|DEBUG)\]/);
+    const typeMatch = String(log).match(/\[(INFO|WARNING|ERROR|DEBUG)\]/);
     if (typeMatch) type = typeMatch[1];
     
     if (parts.length > 1) {
@@ -156,6 +170,34 @@ export const Analytics: React.FC = () => {
       default: return 'bg-slate-100 dark:bg-slate-950/30 border-slate-200/5 dark:border-white/5'; // None
     }
   };
+
+  if (isLoading) {
+    return (
+      <div className="flex-grow flex flex-col justify-center items-center py-24 select-none relative overflow-hidden min-h-[500px]">
+        {/* Background decorative glowing orbs */}
+        <div className="absolute top-1/4 left-1/3 w-72 h-72 bg-indigo-500/10 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-1/4 right-1/3 w-72 h-72 bg-purple-500/10 rounded-full blur-3xl animate-pulse" />
+        
+        <GlassCard className="max-w-md w-full p-8 border-slate-200/30 dark:border-white/5 flex flex-col items-center text-center space-y-6 relative z-10 backdrop-blur-lg">
+          <div className="w-16 h-16 rounded-3xl bg-indigo-500/10 dark:bg-indigo-500/20 flex items-center justify-center border border-indigo-500/20 relative">
+            <div className="absolute inset-0 rounded-3xl border-2 border-indigo-500 border-t-transparent animate-spin" />
+            <BarChart3 className="w-6 h-6 text-indigo-500 animate-pulse" />
+          </div>
+          <div className="space-y-2">
+            <h2 className="text-sm font-black text-slate-800 dark:text-white uppercase tracking-widest font-display">Syncing Live Telemetry</h2>
+            <p className="text-[10px] text-slate-450 dark:text-slate-400 font-semibold leading-relaxed max-w-xs">
+              Vedha AI is compiling offline database chunks, parsing document indexes, and calculating model memory allocations.
+            </p>
+          </div>
+          <div className="w-full flex flex-col gap-2 pt-2">
+            <div className="h-1.5 w-full bg-slate-100 dark:bg-slate-900 rounded-full overflow-hidden">
+              <div className="h-full bg-indigo-500 rounded-full w-2/3 animate-pulse" />
+            </div>
+          </div>
+        </GlassCard>
+      </div>
+    );
+  }
 
   return (
     <div className="flex-grow flex flex-col gap-6 relative select-none">
@@ -247,7 +289,7 @@ export const Analytics: React.FC = () => {
                 
                 {/* Chart labels overlay */}
                 <div className="absolute top-1 right-2 text-[9px] font-bold text-slate-400">
-                  {analytics ? analytics.total_chunks.toLocaleString() : '0'} vectors
+                  {analytics && typeof analytics.total_chunks === 'number' ? analytics.total_chunks.toLocaleString() : '0'} vectors
                 </div>
                 <div className="absolute bottom-1 left-2 text-[9px] font-bold text-slate-400">Start (June)</div>
                 <div className="absolute bottom-1 right-2 text-[9px] font-bold text-slate-400">Current (July)</div>
@@ -399,7 +441,7 @@ export const Analytics: React.FC = () => {
               <div className="flex justify-between items-center py-1.5 border-b border-slate-100 dark:border-white/5">
                 <span>Total Text Chunks</span>
                 <span className="font-extrabold text-slate-950 dark:text-white text-sm">
-                  {analytics ? analytics.total_chunks.toLocaleString() : '0'} chunks
+                  {analytics && typeof analytics.total_chunks === 'number' ? analytics.total_chunks.toLocaleString() : '0'} chunks
                 </span>
               </div>
               <div className="flex justify-between items-center py-1.5 border-b border-slate-100 dark:border-white/5">

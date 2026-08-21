@@ -10,6 +10,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { GlassCard } from '../components/GlassCard';
 import { getDocumentChunks, getCollections } from '../services/api';
+import { LottieLoader } from '../components/LottieLoader';
 
 export const Chunks: React.FC = () => {
   const navigate = useNavigate();
@@ -118,9 +119,8 @@ export const Chunks: React.FC = () => {
 
       {/* Main Grid View */}
       {loading ? (
-        <div className="h-64 flex flex-col items-center justify-center text-slate-500 font-bold text-xs uppercase tracking-wider">
-          <div className="w-8 h-8 rounded-full border-2 border-indigo-500/20 border-t-indigo-500 animate-spin mb-3" />
-          <span>Retrieving Chroma Chunks...</span>
+        <div className="h-96 flex flex-col items-center justify-center bg-white/10 dark:bg-slate-900/10 border border-slate-200/30 dark:border-white/5 rounded-[2.5rem] p-6 shadow-xs">
+          <LottieLoader message="Retrieving Vector Database Chunks from ChromaDB..." size={280} />
         </div>
       ) : filteredChunks.length === 0 ? (
         <div className="h-64 flex flex-col items-center justify-center text-slate-450 dark:text-slate-500 text-xs font-bold bg-white/40 dark:bg-slate-900/10 border border-slate-200/30 dark:border-white/5 rounded-[2rem] p-6 shadow-xs">

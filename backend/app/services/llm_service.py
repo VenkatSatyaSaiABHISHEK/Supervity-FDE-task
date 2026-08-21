@@ -43,7 +43,8 @@ class LLMService:
         cls, 
         prompt: str, 
         system_prompt: str = "",
-        model_name: str = DEFAULT_LLM_MODEL
+        model_name: str = DEFAULT_LLM_MODEL,
+        temperature: float = 0.1
     ) -> Generator[str, None, None]:
         """Streams response tokens from local Qwen2.5 model word-by-word."""
         url = f"{OLLAMA_HOST}/api/chat"
@@ -58,7 +59,7 @@ class LLMService:
             "messages": messages,
             "stream": True,
             "options": {
-                "temperature": 0.4
+                "temperature": temperature
             }
         }
         

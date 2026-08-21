@@ -247,6 +247,31 @@ export const Home: React.FC = () => {
     const query = customQuery || searchQuery;
     if (!query.trim() || isAnswering) return;
 
+    // Redirect to Chat page on follow-up questions if a previous answer is already displayed
+    if (answerText) {
+      try {
+        const sessions = await getChatSessions();
+        let activeSessionId = '';
+        if (sessions.length > 0) {
+          activeSessionId = sessions[0].id;
+        } else {
+          const newSess = await createChatSession("Home Query Session");
+          activeSessionId = newSess.id;
+        }
+        
+        navigate('/chat', { 
+          state: { 
+            initialPrompt: query, 
+            activeSessionId: activeSessionId 
+          } 
+        });
+        setSearchQuery('');
+        return;
+      } catch (err) {
+        console.error("Navigation routing fetch failed:", err);
+      }
+    }
+
     setIsAnswering(true);
     setAnswerText('');
     setInlineCitations([]);
@@ -643,8 +668,19 @@ export const Home: React.FC = () => {
 
                 {/* Response Text Block */}
                 <div className="text-xs leading-relaxed text-slate-800 dark:text-slate-200 select-text font-medium bg-slate-50/50 dark:bg-slate-950/20 p-4.5 rounded-2xl border border-slate-200/20 dark:border-white/5 max-h-60 overflow-y-auto whitespace-pre-wrap">
-                  {answerText}
-                  {isAnswering && <span className="inline-block w-1.5 h-3 bg-indigo-500 ml-1 animate-pulse" />}
+                  {isAnswering && !answerText ? (
+                    <div className="flex items-center gap-2 py-1 select-none">
+                      <Loader2 className="w-4 h-4 text-indigo-500 animate-spin" />
+                      <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 animate-pulse">
+                        Vedha AI is thinking...
+                      </span>
+                    </div>
+                  ) : (
+                    <>
+                      {answerText}
+                      {isAnswering && <span className="inline-block w-1.5 h-3 bg-indigo-500 ml-1 animate-pulse" />}
+                    </>
+                  )}
                 </div>
 
                 {/* Telemetry panel details */}

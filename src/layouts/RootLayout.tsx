@@ -8,7 +8,8 @@ import {
   MessageSquare,
   ChevronDown,
   ChevronUp,
-  LogOut
+  LogOut,
+  Layers
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useClock } from '../hooks/useClock';
@@ -70,6 +71,7 @@ export const RootLayout: React.FC = () => {
     { path: '/', label: 'Home', icon: Home },
     { path: '/vault', label: 'Study Library', icon: Database },
     { path: '/chat', label: 'AI Chat', icon: MessageSquare },
+    { path: '/flashcards', label: 'Flashcards', icon: Layers },
     { path: '/analytics', label: 'Learning Analytics', icon: BarChart3 },
     { path: '/settings', label: 'Settings', icon: Settings },
   ];

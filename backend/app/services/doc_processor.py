@@ -8,15 +8,8 @@ from ..utils.helpers import clean_text
 
 logger = get_logger("DocProcessor")
 
-# Attempt importing PaddleOCR with soft fallback
-try:
-    from paddleocr import PaddleOCR
-    logger.info("PaddleOCR library imported successfully.")
-    # Initialize engine lazily to avoid heavy start lockups
-    ocr_engine = None
-except ImportError:
-    logger.warning("PaddleOCR library not installed. OCR falls back to basic metadata scanning.")
-    ocr_engine = "FAILED"
+# Initialize engine lazily to avoid heavy start lockups
+ocr_engine = None
 
 class DocumentProcessor:
     @staticmethod
@@ -28,10 +21,15 @@ class DocumentProcessor:
         if ocr_engine is not None:
             return ocr_engine
         try:
+            from paddleocr import PaddleOCR
             # ch_en is the default english/chinese model, we can switch to English
             ocr_engine = PaddleOCR(use_angle_cls=True, lang='en')
             logger.info("PaddleOCR engine loaded offline model parameters.")
             return ocr_engine
+        except ImportError:
+            logger.warning("PaddleOCR library not installed. OCR falls back to basic metadata scanning.")
+            ocr_engine = "FAILED"
+            return None
         except Exception as e:
             logger.error(f"Failed loading PaddleOCR model: {str(e)}")
             ocr_engine = "FAILED"  # Cache failure so we don't block subsequent requests

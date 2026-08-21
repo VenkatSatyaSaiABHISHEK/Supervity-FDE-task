@@ -23,7 +23,7 @@ def list_documents(
     """Retrieve all indexed documents with active filters."""
     query = db.query(Document)
     
-    if collection_id:
+    if collection_id and collection_id != "all":
         query = query.filter(Document.collection_id == collection_id)
         
     if doc_type and doc_type != "all":
@@ -66,7 +66,7 @@ def get_document_chunks(
         from ..services.rag_engine import chroma_client
         
         # Determine which collections to scan
-        if collection_id:
+        if collection_id and collection_id != "all":
             safe_name = f"col_{collection_id.replace('-', '_')}"
             collections = []
             try:

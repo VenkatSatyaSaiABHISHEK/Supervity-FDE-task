@@ -216,7 +216,8 @@ export async function streamChatMessage(
   onChunk: (token: string) => void,
   onCitations: (citations: string[]) => void,
   onComplete: () => void,
-  onError: (err: any) => void
+  onError: (err: any) => void,
+  signal?: AbortSignal
 ) {
   try {
     const res = await fetch(`${API_BASE}/chat/message`, {
@@ -229,7 +230,8 @@ export async function streamChatMessage(
         model: activeModel,
         mode: mode,
         explain_level: explainLevel
-      })
+      }),
+      signal
     });
 
     if (!res.ok) {
@@ -298,5 +300,62 @@ export async function updateChatSessionTitle(id: string, title: string): Promise
     method: "PUT"
   });
   if (!res.ok) throw new Error("Failed updating session title");
+  return res.json();
+}
+
+// ----------------------------------------------------
+// Flashcards API
+// ----------------------------------------------------
+export interface FlashcardResponse {
+  id: string;
+  collection_id: string;
+  question: string;
+  answer: string;
+  interval_days: number;
+  ease_factor: number;
+  repetitions: number;
+  next_review_date: string;
+}
+
+export async function getFlashcards(collectionId?: string, dueOnly?: boolean): Promise<FlashcardResponse[]> {
+  let url = `${API_BASE}/flashcards`;
+  const params = [];
+  if (collectionId) params.push(`collection_id=${encodeURIComponent(collectionId)}`);
+  if (dueOnly) params.push(`due_only=true`);
+  if (params.length > 0) url += `?${params.join("&")}`;
+  
+  const res = await fetch(url);
+  if (!res.ok) throw new Error("Failed fetching flashcards");
+  return res.json();
+}
+
+export async function reviewFlashcard(cardId: string, rating: 'hard' | 'good' | 'easy'): Promise<FlashcardResponse> {
+  const res = await fetch(`${API_BASE}/flashcards/${cardId}/review`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ rating })
+  });
+  if (!res.ok) throw new Error("Failed recording card review");
+  return res.json();
+}
+
+export async function generateFlashcards(collectionId: string): Promise<FlashcardResponse[]> {
+  const res = await fetch(`${API_BASE}/flashcards/generate`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ collection_id: collectionId })
+  });
+  if (!res.ok) {
+    const errorData = await res.json().catch(() => ({}));
+    throw new Error(errorData.detail || "Failed generating flashcards via AI");
+  }
+  return res.json();
+}
+
+export async function deleteFlashcard(cardId: string): Promise<any> {
+  const res = await fetch(`${API_BASE}/flashcards/${cardId}`, {
+    method: "DELETE"
+  });
+  if (!res.ok) throw new Error("Failed deleting flashcard");
   return res.json();
 }

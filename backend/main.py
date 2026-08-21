@@ -7,7 +7,7 @@ from app.utils.logger import get_logger
 from app.services.llm_service import LLMService
 
 # Import routers
-from app.routers import chat, upload, documents, collections, search, settings, analytics, voice
+from app.routers import chat, upload, documents, collections, search, settings, analytics, voice, flashcards
 
 logger = get_logger("Main")
 
@@ -35,6 +35,7 @@ app.include_router(search.router, prefix="/api")
 app.include_router(settings.router, prefix="/api")
 app.include_router(analytics.router, prefix="/api")
 app.include_router(voice.router, prefix="/api")
+app.include_router(flashcards.router, prefix="/api")
 
 @app.on_event("startup")
 def startup_event():

@@ -7,11 +7,6 @@ except ImportError:
     from langchain.text_splitter import RecursiveCharacterTextSplitter
 
 try:
-    from langchain_community.embeddings import HuggingFaceEmbeddings
-except ImportError:
-    from langchain.embeddings import HuggingFaceEmbeddings
-
-try:
     from langchain_community.vectorstores import Chroma
 except ImportError:
     from langchain.vectorstores import Chroma
@@ -26,16 +21,26 @@ from ..utils.logger import get_logger
 
 logger = get_logger("RagEngine")
 
-# Initialize Embedding function
-# This uses local sentence-transformers running entirely offline.
-logger.info("Initializing HuggingFace SentenceTransformer embedding function...")
-embedding_function = HuggingFaceEmbeddings(
-    model_name="all-MiniLM-L6-v2",
-    model_kwargs={'device': 'cpu'}
-)
-
 # Persistent Chroma Client
 chroma_client = chromadb.PersistentClient(path=str(CHROMA_DIR))
+
+_embedding_function = None
+
+def get_embedding_function():
+    """Lazily load the HuggingFace SentenceTransformer embedding function to speed up imports."""
+    global _embedding_function
+    if _embedding_function is None:
+        logger.info("Initializing HuggingFace SentenceTransformer embedding function...")
+        try:
+            from langchain_community.embeddings import HuggingFaceEmbeddings
+        except ImportError:
+            from langchain.embeddings import HuggingFaceEmbeddings
+            
+        _embedding_function = HuggingFaceEmbeddings(
+            model_name="all-MiniLM-L6-v2",
+            model_kwargs={'device': 'cpu'}
+        )
+    return _embedding_function
 
 class RagEngine:
     @staticmethod
@@ -51,7 +56,7 @@ class RagEngine:
         return Chroma(
             client=chroma_client,
             collection_name=safe_name,
-            embedding_function=embedding_function
+            embedding_function=get_embedding_function()
         )
 
     @classmethod

@@ -25,6 +25,7 @@ import {
 } from 'lucide-react';
 import { GlassCard } from '../components/GlassCard';
 import { cn } from '../utils/utils';
+import { LottieLoader } from '../components/LottieLoader';
 import { 
   getCollections, 
   getDocuments, 
@@ -108,6 +109,7 @@ export const Vault: React.FC = () => {
   // OCR Activity Log State (will be mapped from analytics)
   const [ocrLogs, setOcrLogs] = useState<string[]>([]);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [isInitialLoading, setIsInitialLoading] = useState(true);
 
   const loadData = async () => {
     try {
@@ -137,6 +139,8 @@ export const Vault: React.FC = () => {
       }
     } catch (err) {
       console.error("Failed loading local vault telemetry:", err);
+    } finally {
+      setIsInitialLoading(false);
     }
   };
 
@@ -295,6 +299,14 @@ export const Vault: React.FC = () => {
   const circumference = 2 * Math.PI * radius;
   const strokeDashoffset = circumference - (percentageUsed / 100) * circumference;
 
+  if (isInitialLoading) {
+    return (
+      <div className="flex-grow flex flex-col items-center justify-center min-h-[60vh] bg-transparent text-slate-500">
+        <LottieLoader message="Connecting to local database & retrieving study library telemetry..." size={300} />
+      </div>
+    );
+  }
+
   return (
     <div className="flex-grow flex flex-col lg:flex-row gap-6 relative select-none">
       <input 
@@ -308,7 +320,7 @@ export const Vault: React.FC = () => {
       <div className="flex-grow flex flex-col gap-6 lg:w-3/4">
         
         {/* Controls and Stats Header */}
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 flex-wrap">
           <div className="text-left">
             <h1 className="font-display text-2xl sm:text-3xl font-black text-slate-900 dark:text-white flex items-center gap-2.5">
               <Database className="w-8 h-8 text-indigo-500 animate-pulse" />
@@ -319,7 +331,7 @@ export const Vault: React.FC = () => {
             </p>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             {/* View Mode Toggles */}
             <div className="flex items-center bg-slate-100 dark:bg-slate-950 p-1.5 rounded-xl border border-slate-200/50 dark:border-white/5">
               <button

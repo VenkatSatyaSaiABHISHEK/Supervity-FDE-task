@@ -38,13 +38,14 @@ def run_evaluation():
     # 2. Test Local Embedding Model Latency
     print("\n[STEP 2] Evaluating local embedding model (all-MiniLM-L6-v2)...")
     try:
-        from app.services.rag_engine import embedding_function
+        from app.services.rag_engine import get_embedding_function
         t0 = time.time()
         test_text = "Vedha AI is an offline education assistant utilizing local LLMs and RAG."
-        embedding = embedding_function.embed_query(test_text)
+        embedding_func = get_embedding_function()
+        embedding = embedding_func.embed_query(test_text)
         t_duration = time.time() - t0
         vector_dim = len(embedding)
-        print(f"✓ Embeddings running successfully on device: {embedding_function.model_kwargs.get('device', 'cpu')}")
+        print(f"✓ Embeddings running successfully on device: {embedding_func.model_kwargs.get('device', 'cpu')}")
         print(f"   - Input phrase: '{test_text}'")
         print(f"   - Generated Vector Dimensions: {vector_dim}")
         print(f"   - Generation Latency: {t_duration * 1000:.2f} ms")

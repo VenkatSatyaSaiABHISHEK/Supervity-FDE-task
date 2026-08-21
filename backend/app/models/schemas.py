@@ -132,3 +132,23 @@ class AnalyticsResponse(BaseModel):
     total_chunks: int = 0
     chunk_size: int = 512
     chunk_overlap: int = 64
+
+# Flashcards
+class FlashcardResponse(BaseModel):
+    id: str
+    collection_id: str
+    question: str
+    answer: str
+    interval_days: int
+    ease_factor: float
+    repetitions: int
+    next_review_date: str
+
+    class Config:
+        from_attributes = True
+
+class FlashcardReviewRequest(BaseModel):
+    rating: str  # 'hard', 'good', 'easy'
+
+class FlashcardGenerateRequest(BaseModel):
+    collection_id: str
