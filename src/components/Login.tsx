@@ -3,38 +3,38 @@ import { useAuth } from '../context/AuthContext';
 import { db } from '../services/firebase';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Loader2, AlertCircle, ArrowRight, ArrowLeft, Database, Sparkles, GraduationCap, BarChart3 } from 'lucide-react';
+import { Loader2, AlertCircle, ArrowRight, ArrowLeft, Headphones, Sparkles, ShieldCheck, BarChart3 } from 'lucide-react';
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 
 const steps = [
   {
     id: 1,
-    title: "1. Build Your Knowledge Base",
-    desc: "Upload textbooks, notes, slides, or documents (PDF, DOCX, TXT, Images). Vedha extracts and indexes them offline into a local vector database.",
-    icon: Database,
+    title: "1. AI Ticket Triage",
+    desc: "Every customer message is automatically classified into Billing, Technical, or Account Access — with a confidence score shown in real time.",
+    icon: Headphones,
     color: "text-blue-500 bg-blue-500/10 border-blue-500/20",
     mockType: "ingestion"
   },
   {
     id: 2,
-    title: "2. Chat Private & Offline",
-    desc: "Ask questions, synthesize code, or translate text. Your queries are processed entirely locally on your machine, keeping your data 100% secure.",
+    title: "2. Grounded KB Answers",
+    desc: "SupportFlow searches your support knowledge base using RAG and answers only from indexed documents — no hallucinations, only evidence-backed replies.",
     icon: Sparkles,
     color: "text-indigo-500 bg-indigo-500/10 border-indigo-500/20",
     mockType: "chat"
   },
   {
     id: 3,
-    title: "3. Auto-Compile Quizzes",
-    desc: "Select \"Quiz Me\" or \"Interview Prep\" to generate custom interactive multiple-choice practice exams based directly on your notes.",
-    icon: GraduationCap,
+    title: "3. Human Escalation",
+    desc: "If classification confidence or retrieval confidence fall below configurable thresholds, the ticket is automatically escalated to a human agent.",
+    icon: ShieldCheck,
     color: "text-emerald-500 bg-emerald-500/10 border-emerald-500/20",
     mockType: "quiz"
   },
   {
     id: 4,
-    title: "4. Review Analytics",
-    desc: "Monitor your study metrics, document library sizes, indexed chunk breakdowns, and system speeds on the Analytics dashboard.",
+    title: "4. Ticket History",
+    desc: "Review every past interaction — category, confidence %, KB match score, AI resolved vs escalated — for audit and quality assurance.",
     icon: BarChart3,
     color: "text-amber-500 bg-amber-500/10 border-amber-500/20",
     mockType: "analytics"
@@ -57,7 +57,7 @@ const renderMockVisual = (type: string) => {
               transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
               className="w-14 h-14 rounded-full bg-blue-500/10 dark:bg-blue-500/20 flex items-center justify-center text-blue-500 dark:text-blue-400 shadow-[0_0_15px_rgba(59,130,246,0.2)]"
             >
-              <Database className="w-6 h-6" />
+              <Headphones className="w-6 h-6" />
             </motion.div>
             <span className="text-xs font-bold text-slate-550 dark:text-slate-400">Knowledge Files</span>
           </div>
@@ -388,16 +388,16 @@ export const Login: React.FC = () => {
       <div className="w-full md:w-[48%] h-auto md:h-full bg-slate-50/10 dark:bg-slate-950/10 backdrop-blur-2xl flex flex-col justify-between p-8 md:p-14 select-none border-b md:border-b-0 md:border-r border-slate-200/50 dark:border-white/5 relative z-10 overflow-y-auto">
         <div className="flex items-center gap-2.5">
           <div className="w-8 h-8 rounded-lg bg-indigo-600 dark:bg-indigo-500 flex items-center justify-center shadow-md shadow-indigo-500/25">
-            <svg className="w-4.5 h-4.5 text-white" viewBox="0 0 24 24" fill="none"><path d="M12 2C12 7.5 16.5 12 22 12C16.5 12 12 16.5 12 22C12 16.5 7.5 12 2 12C7.5 12 12 7.5 12 2Z" fill="currentColor" /></svg>
+            <Headphones className="w-4 h-4 text-white" />
           </div>
-          <span className="text-sm font-black tracking-wider text-[#101828] dark:text-white uppercase">Vedha AI</span>
+          <span className="text-sm font-black tracking-wider text-[#101828] dark:text-white uppercase">SupportFlow AI</span>
         </div>
 
         <div className="my-auto max-w-xl mx-auto w-full py-4 relative z-10 flex flex-col gap-6">
           <div>
-            <span className="text-xs font-black uppercase tracking-widest text-indigo-650 dark:text-indigo-400 bg-indigo-500/10 dark:bg-indigo-500/20 px-2.5 py-1 rounded-full shadow-xs">⚡ Magic Experience</span>
-            <h2 className="text-2xl sm:text-3xl font-black mt-3 tracking-tight">How to use <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent animate-aurora">Vedha AI</span></h2>
-            <p className="text-sm font-semibold text-slate-500 dark:text-slate-400 mt-1.5">Your completely private, offline learning & research companion.</p>
+            <span className="text-xs font-black uppercase tracking-widest text-indigo-650 dark:text-indigo-400 bg-indigo-500/10 dark:bg-indigo-500/20 px-2.5 py-1 rounded-full shadow-xs">🎯 Tier-1 Support Triage</span>
+            <h2 className="text-2xl sm:text-3xl font-black mt-3 tracking-tight">Meet <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 bg-clip-text text-transparent animate-aurora">SupportFlow AI</span></h2>
+            <p className="text-sm font-semibold text-slate-500 dark:text-slate-400 mt-1.5">Your AI Customer Support Employee — classify, answer, and escalate tickets automatically.</p>
           </div>
 
           <AnimatePresence mode="wait">
@@ -431,7 +431,7 @@ export const Login: React.FC = () => {
             </div>
           </div>
         </div>
-        <div className="text-xs text-slate-400 dark:text-slate-500 font-semibold tracking-tight">&copy; Vedha AI {new Date().getFullYear()}</div>
+        <div className="text-xs text-slate-400 dark:text-slate-500 font-semibold tracking-tight">&copy; SupportFlow AI {new Date().getFullYear()} · Supervity FDE Assessment</div>
       </div>
 
       <div className="w-full md:w-[52%] h-auto md:h-full bg-white/60 dark:bg-slate-950/20 backdrop-blur-md flex items-center justify-center p-8 md:p-16 relative overflow-y-auto z-10">
@@ -475,7 +475,7 @@ export const Login: React.FC = () => {
               <motion.div key="signup" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.2 }} className="space-y-7">
                 <div>
                   <h2 className="text-2xl sm:text-3xl font-bold text-[#101828] dark:text-white tracking-tight">Create your account</h2>
-                  <p className="text-sm text-slate-500 dark:text-slate-400 mt-2">Sign up to build your secure offline knowledge companion.</p>
+                  <p className="text-sm text-slate-500 dark:text-slate-400 mt-2">Create your SupportFlow AI agent account to get started.</p>
                 </div>
                 <form onSubmit={handleSignUp} className="space-y-5">
                   <div className="space-y-2">

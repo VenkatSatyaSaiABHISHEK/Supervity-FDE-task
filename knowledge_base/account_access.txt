@@ -1,0 +1,43 @@
+===== ACCOUNT ACCESS SUPPORT KNOWLEDGE BASE =====
+
+FAQ: I forgot my password. How do I reset it?
+Answer: To reset your password: 1) Go to the login page at app.supportflow.ai/login. 2) Click "Forgot Password" below the password field. 3) Enter your registered email address. 4) Check your inbox for a password reset email (check spam/junk if not found). 5) Click the reset link in the email (valid for 60 minutes). 6) Enter and confirm your new password. 7) Log in with your new password. If you do not receive the reset email within 5 minutes, try again or contact support.
+
+FAQ: I cannot log in to my account.
+Answer: If you cannot log in, try these steps: 1) Double-check your email address for typos. 2) Check that Caps Lock is not on when entering your password. 3) Try the "Forgot Password" flow to reset your password. 4) Clear your browser cookies and cache, then try again. 5) Try in an incognito/private browser window. 6) Check if your account may have been locked (you will see a specific error message). 7) Ensure you are using the correct login method (email/password vs Google vs SSO). If none of these work, contact support with your account email.
+
+FAQ: My account is locked. How do I unlock it?
+Answer: Accounts are locked after 5 consecutive failed login attempts as a security measure. To unlock: 1) Wait 30 minutes and try again. 2) Alternatively, use "Forgot Password" to reset your password, which will also unlock your account. 3) If you believe your account was locked due to unauthorized access, contact security@supportflow.ai immediately with your account email and we will investigate and secure your account.
+
+FAQ: I am not receiving the verification email.
+Answer: If you are not receiving verification or password reset emails: 1) Check your spam and junk mail folders. 2) Add noreply@supportflow.ai to your email contacts to prevent filtering. 3) Ensure your inbox is not full. 4) Try requesting the email again after 5 minutes. 5) Check if your organization's email system may be blocking external emails. 6) If using a corporate email, ask your IT administrator to whitelist our domain. Contact support with your email address if none of these work.
+
+FAQ: My verification link or reset link has expired.
+Answer: Verification links expire after 60 minutes and reset links expire after 60 minutes for security. To get a new link: 1) Return to the login page. 2) Click "Forgot Password" again. 3) Enter your email and request a new link. 4) Use the new link within 60 minutes. If you are having repeated issues with link expiration, check that your system clock is set to the correct time and timezone.
+
+FAQ: How do I set up two-factor authentication (2FA)?
+Answer: To enable two-factor authentication: 1) Go to Settings > Security > Two-Factor Authentication. 2) Click "Enable 2FA". 3) Choose your method: Authenticator App (recommended) or SMS. 4) For authenticator app: scan the QR code with Google Authenticator, Authy, or similar. 5) Enter the 6-digit code to verify setup. 6) Save your backup codes in a safe place. 2FA adds significant security to your account and is highly recommended.
+
+FAQ: I lost access to my two-factor authentication device.
+Answer: If you lost access to your 2FA device: 1) Use one of the backup codes you saved during 2FA setup (each code works once). 2) If you don't have backup codes, contact support at security@supportflow.ai from your registered email address. 3) Provide your account email, proof of identity, and describe when you last accessed the account. Our security team will verify your identity and help restore access within 1-2 business days.
+
+FAQ: I want to change my email address.
+Answer: To change your account email address: 1) Go to Settings > Profile > Email Address. 2) Click "Change Email". 3) Enter your new email address. 4) You will receive a verification email at BOTH your old and new email addresses. 5) Click the verification link in the email sent to your new address. 6) Your email address is updated immediately. Note: you will need to use your new email to log in going forward.
+
+FAQ: I want to change my password.
+Answer: To change your current password: 1) Go to Settings > Security > Change Password. 2) Enter your current password. 3) Enter your new password (minimum 8 characters, must include uppercase, lowercase, and a number). 4) Confirm your new password. 5) Click "Save Changes". Your password is updated immediately and you may be asked to log in again on other devices.
+
+FAQ: How do I delete my account?
+Answer: To permanently delete your account: 1) Go to Settings > Account > Delete Account. 2) Read the deletion notice carefully (all data is permanently deleted and cannot be recovered). 3) Type "DELETE" to confirm. 4) Enter your password to authorize. 5) Click "Permanently Delete". Account deletion is processed within 30 days. If you change your mind within 14 days, contact support@supportflow.ai to cancel the deletion request.
+
+FAQ: My account appears to have been hacked or accessed without my permission.
+Answer: If you suspect unauthorized access: 1) Change your password immediately from Settings > Security > Change Password. 2) Enable two-factor authentication if not already active. 3) Log out of all other sessions from Settings > Security > Active Sessions > "Log Out All". 4) Review your account activity log at Settings > Security > Activity Log. 5) Contact security@supportflow.ai immediately describing what you noticed. Do NOT share your password with anyone, including support staff.
+
+FAQ: How do I log out of all devices?
+Answer: To log out of all active sessions: 1) Go to Settings > Security > Active Sessions. 2) You will see a list of all devices where you are currently logged in. 3) Click "Log Out All Devices" to terminate all sessions simultaneously. 4) You will need to log in again on your current device. This is useful if you lose a device or suspect unauthorized access.
+
+FAQ: I am trying to access a shared account or team account but am getting a permission error.
+Answer: Permission errors on team or shared accounts usually mean your role does not include access to that feature or section. 1) Ask your account administrator to verify your role permissions at Settings > Team > Members. 2) Common roles: Viewer (read-only), Editor (can edit), Admin (full access). 3) If you believe you need elevated permissions, ask your team admin to update your role. 4) If you are the admin, contact support with your account email and the specific area you cannot access.
+
+FAQ: How do I recover my username or find which email I used to register?
+Answer: If you do not remember which email you used: 1) Try any email addresses you commonly use with the Forgot Password feature. 2) Search your email inboxes for "SupportFlow" or "noreply@supportflow.ai" to find our welcome or confirmation emails. 3) If you still cannot find it, contact support@supportflow.ai and provide your name and any other account details you remember. We can look up your account safely.

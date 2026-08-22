@@ -2,69 +2,67 @@ import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.database import init_db
-from app.config import OLLAMA_HOST
+from app.config import OLLAMA_HOST, APP_NAME, APP_SUBTITLE, APP_TAGLINE
 from app.utils.logger import get_logger
 from app.services.llm_service import LLMService
 
-# Import routers
-from app.routers import chat, upload, documents, collections, search, settings, analytics, voice, flashcards
+# ── Active routers (flashcards, analytics, voice removed) ────────────────────
+from app.routers import chat, upload, documents, collections, search, settings
 
 logger = get_logger("Main")
 
 app = FastAPI(
-    title="Vedha AI Offline RAG Backend",
-    description="Secure offline knowledge processing engine utilizing FastAPI, ChromaDB, and local Ollama Qwen2.5 integrations.",
-    version="1.0.0"
+    title=f"{APP_NAME} Backend",
+    description=f"{APP_SUBTITLE} — {APP_TAGLINE}",
+    version="2.0.0"
 )
 
-# CORS configurations - Allow React dev server origins
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Adjust in production environments if needed
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Register Routers
-app.include_router(chat.router, prefix="/api")
-app.include_router(upload.router, prefix="/api")
-app.include_router(documents.router, prefix="/api")
+# Register routers
+app.include_router(chat.router,        prefix="/api")
+app.include_router(upload.router,      prefix="/api")
+app.include_router(documents.router,   prefix="/api")
 app.include_router(collections.router, prefix="/api")
-app.include_router(search.router, prefix="/api")
-app.include_router(settings.router, prefix="/api")
-app.include_router(analytics.router, prefix="/api")
-app.include_router(voice.router, prefix="/api")
-app.include_router(flashcards.router, prefix="/api")
+app.include_router(search.router,      prefix="/api")
+app.include_router(settings.router,    prefix="/api")
+
 
 @app.on_event("startup")
 def startup_event():
-    """Initializes local tables and runs health check queries."""
-    logger.info("Vedha AI offline RAG backend server starting up...")
-    
-    # 1. SQL Database Setup
+    logger.info(f"{APP_NAME} — {APP_SUBTITLE} backend starting up...")
+
+    # 1. Initialize SQLite + seed support knowledge base
     init_db()
-    logger.info("SQLite relational indices initialized successfully.")
-    
-    # 2. Local Ollama Runner Health Check
+    logger.info("SQLite tables initialized. Support KB seeded.")
+
+    # 2. Check local Ollama health
     ollama_running = LLMService.check_ollama_status()
     if ollama_running:
-        logger.info(f"Ollama runner verified active at: {OLLAMA_HOST}")
         installed = LLMService.get_installed_models()
-        logger.info(f"Available local models: {installed}")
+        logger.info(f"Ollama online at {OLLAMA_HOST}. Models: {installed}")
     else:
         logger.warning(
-            f"Ollama runner is not responding at: {OLLAMA_HOST}. "
-            "Please ensure the Ollama desktop agent is running to enable offline text generation."
+            f"Ollama not responding at {OLLAMA_HOST}. "
+            "Start Ollama and run: ollama pull qwen2.5:3b"
         )
+
 
 @app.get("/")
 def read_root():
     return {
+        "app": APP_NAME,
+        "subtitle": APP_SUBTITLE,
         "status": "healthy",
-        "app": "Vedha AI Local Engine",
         "offline": True
     }
+
 
 if __name__ == "__main__":
     from pathlib import Path

@@ -1,0 +1,37 @@
+===== TECHNICAL SUPPORT KNOWLEDGE BASE =====
+
+FAQ: The website is not loading or showing a blank page.
+Answer: If the website is not loading, please try the following steps in order: 1) Hard-refresh your browser with Ctrl+Shift+R (Windows) or Cmd+Shift+R (Mac). 2) Clear your browser cache and cookies from Settings > Privacy > Clear Browsing Data. 3) Try opening the site in an incognito/private window. 4) Try a different browser such as Chrome, Firefox, or Edge. 5) Check your internet connection. 6) Disable any browser extensions or VPN temporarily. If the problem persists after all these steps, please contact support with your browser name, version, and operating system.
+
+FAQ: I am seeing an error 500 or internal server error.
+Answer: Error 500 is an internal server error on our end. This usually resolves itself within 5-15 minutes. Please try refreshing the page or clearing your browser cache. If the error continues for more than 30 minutes, please contact support with a screenshot of the error, the URL you were visiting, and your account email.
+
+FAQ: I am seeing a 404 page not found error.
+Answer: A 404 error means the page you requested does not exist. If you followed a link from within our platform, please report it as a broken link to support@supportflow.ai. If you typed the URL manually, please check for typos. Try navigating to the page from the main menu instead.
+
+FAQ: The application crashes when I try to upload a PDF file.
+Answer: If the application crashes during PDF upload, please check the following: 1) Ensure your PDF file is under 25MB in size. 2) Make sure the PDF is not password-protected or encrypted. 3) Try re-saving or re-exporting the PDF from its original application. 4) Try a different PDF viewer to resave it. 5) Clear your browser cache. 6) Try uploading in Chrome or Firefox. If none of these work, please send the file to support@supportflow.ai and we will investigate.
+
+FAQ: A feature or button is not working or is unresponsive.
+Answer: If a button or feature is not responding, please: 1) Refresh the page with Ctrl+R. 2) Clear your browser cache and cookies. 3) Try in incognito mode. 4) Try a different browser. 5) Check if there is a known outage at status.supportflow.ai. If the issue continues, please describe exactly which button or feature is not working, what you clicked, and what you expected to happen.
+
+FAQ: The application is running very slowly or lagging.
+Answer: If the application is slow, try these steps: 1) Close other browser tabs and applications to free up memory. 2) Clear your browser cache. 3) Disable browser extensions that may be consuming resources. 4) Check your internet connection speed. 5) Try using Chrome for the best performance. 6) If on a corporate network, check with your IT team if any firewall rules might be blocking requests.
+
+FAQ: I cannot download or export a file.
+Answer: If downloads are failing, please check: 1) Your browser's download permissions (go to browser Settings > Site Settings > Downloads). 2) Make sure your download folder is accessible and not full. 3) Try right-clicking and selecting "Save As". 4) Try in a different browser. 5) Temporarily disable your antivirus to check if it's blocking the download. If the download link appears broken, please report it to support with the exact URL.
+
+FAQ: I am getting an API error or integration failure.
+Answer: For API errors, check the following: 1) Verify your API key is correct and has not expired. You can regenerate your API key from Settings > Developer > API Keys. 2) Check that you are using the correct API endpoint URL from our documentation. 3) Ensure your API request headers include "Content-Type: application/json" and "Authorization: Bearer YOUR_API_KEY". 4) Check our API status at status.supportflow.ai. 5) Review our API documentation for the correct request format.
+
+FAQ: Images or content are not loading properly.
+Answer: If images or media are not displaying, try: 1) Hard-refresh the page with Ctrl+Shift+R. 2) Clear your browser cache. 3) Check your internet connection. 4) Disable browser extensions (especially ad-blockers). 5) Ensure your firewall or proxy is not blocking content from our CDN (cdn.supportflow.ai).
+
+FAQ: I received a "session expired" error and was logged out.
+Answer: Session expiration is a security feature. Your session expires after 24 hours of inactivity. To avoid this, keep the browser tab active or enable "Remember Me" on the login page. If you were logged out unexpectedly during active use, this may indicate an issue. Please report it with the time it occurred and your timezone.
+
+FAQ: The mobile app is crashing or not working.
+Answer: For mobile app issues: 1) Force-close the app and reopen it. 2) Ensure your app is updated to the latest version from the App Store or Google Play. 3) Restart your phone. 4) Uninstall and reinstall the app. 5) Ensure your phone OS meets our minimum requirements (iOS 15+ or Android 10+). If crashes continue, enable crash reporting in the app settings and contact support with your device model and OS version.
+
+FAQ: I cannot import or sync data from an external service.
+Answer: For import and sync issues: 1) Check that you have granted the necessary permissions to the third-party service (under Settings > Integrations). 2) Reconnect the integration by revoking and re-authorizing the connection. 3) Ensure your account on the external service is active and in good standing. 4) Check if the external service is experiencing downtime. If the sync still fails, please contact support with the name of the integration and any error messages shown.

@@ -1,7 +1,9 @@
 from pydantic import BaseModel, Field, field_validator
 from typing import List, Optional
 
-# Documents
+
+# ─── Documents ────────────────────────────────────────────────────────────────
+
 class DocumentBase(BaseModel):
     id: str
     name: str
@@ -17,7 +19,9 @@ class DocumentResponse(DocumentBase):
     class Config:
         from_attributes = True
 
-# Collections
+
+# ─── Collections ──────────────────────────────────────────────────────────────
+
 class CollectionBase(BaseModel):
     id: str
     name: str
@@ -41,13 +45,35 @@ class CollectionResponse(CollectionBase):
     class Config:
         from_attributes = True
 
-# Chat
+
+# ─── Ticket Triage ────────────────────────────────────────────────────────────
+
+class TicketMeta(BaseModel):
+    """Structured result from the SupportFlow triage pipeline."""
+    category: str                              # billing | technical | account_access | unknown
+    category_confidence: float                 # 0.0 – 1.0
+    retrieval_confidence: float                # 0.0 – 1.0
+    status: str                                # resolved | escalated
+    escalation_reason: str = ""
+    label: str = ""                            # Human-readable category label
+    color: str = "slate"                       # Badge color token
+
+
+# ─── Chat Messages ────────────────────────────────────────────────────────────
+
 class MessageBase(BaseModel):
     id: str
     role: str
     content: str
     timestamp: str
     citations: List[str] = []
+
+    # Ticket triage metadata (populated on assistant messages)
+    ticket_category: Optional[str] = None
+    ticket_category_confidence: Optional[float] = None
+    ticket_retrieval_confidence: Optional[float] = None
+    ticket_status: Optional[str] = None
+    ticket_escalation_reason: Optional[str] = None
 
     class Config:
         from_attributes = True
@@ -60,6 +86,7 @@ class MessageBase(BaseModel):
                 return []
             return [c.strip() for c in v.split(",") if c.strip()]
         return v
+
 
 class ChatSessionBase(BaseModel):
     id: str
@@ -76,15 +103,16 @@ class ChatRequest(BaseModel):
     session_id: str
     prompt: str
     model: Optional[str] = "qwen2.5:3b"
+    # collection_id ignored — SupportFlow always uses SUPPORT_COLLECTION_ID
     collection_id: Optional[str] = None
-    mode: Optional[str] = "learning"
-    explain_level: Optional[str] = "intermediate"
 
 class ChatSessionCreate(BaseModel):
-    title: Optional[str] = "New Chat Thread"
+    title: Optional[str] = "New Support Ticket"
     collection_id: Optional[str] = None
 
-# Search
+
+# ─── Search ───────────────────────────────────────────────────────────────────
+
 class SearchRequest(BaseModel):
     query: str
     collection_id: Optional[str] = None
@@ -96,15 +124,8 @@ class SearchResultItem(BaseModel):
     page_number: Optional[int] = 1
     score: float
 
-# Settings
-class OCRSettingsSchema(BaseModel):
-    enabled: bool = True
-    language: str = "ch_en" # default PaddleOCR languages
 
-class EmbeddingSettingsSchema(BaseModel):
-    model: str = "all-MiniLM-L6-v2"
-    chunk_size: int = 512
-    chunk_overlap: int = 64
+# ─── Settings ─────────────────────────────────────────────────────────────────
 
 class SystemSettingsResponse(BaseModel):
     active_model: str = "qwen2.5:3b"
@@ -112,43 +133,3 @@ class SystemSettingsResponse(BaseModel):
     ocr_language: str = "ch_en"
     chunk_size: int = 512
     chunk_overlap: int = 64
-
-# Analytics
-class RecentOCRActivity(BaseModel):
-    timestamp: str
-    document_name: str
-    status: str
-
-class AnalyticsResponse(BaseModel):
-    memory_used: float  # GB
-    memory_max: float   # GB
-    collections_count: int
-    documents_count: int
-    active_model: str
-    ocr_status: str
-    recent_uploads: List[DocumentResponse]
-    recent_ocr: List[RecentOCRActivity]
-    console_logs: List[str]
-    total_chunks: int = 0
-    chunk_size: int = 512
-    chunk_overlap: int = 64
-
-# Flashcards
-class FlashcardResponse(BaseModel):
-    id: str
-    collection_id: str
-    question: str
-    answer: str
-    interval_days: int
-    ease_factor: float
-    repetitions: int
-    next_review_date: str
-
-    class Config:
-        from_attributes = True
-
-class FlashcardReviewRequest(BaseModel):
-    rating: str  # 'hard', 'good', 'easy'
-
-class FlashcardGenerateRequest(BaseModel):
-    collection_id: str

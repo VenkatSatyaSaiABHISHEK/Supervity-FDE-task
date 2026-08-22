@@ -1,0 +1,37 @@
+===== BILLING SUPPORT KNOWLEDGE BASE =====
+
+FAQ: Why was I charged twice?
+Answer: Duplicate charges are normally reviewed and reversed automatically within 5-7 business days. If you see two identical charges, please check your bank statement and wait 3-5 business days. If the duplicate charge is not resolved by then, contact our billing team with your transaction ID and we will process an immediate refund.
+
+FAQ: My payment failed but money was deducted from my account.
+Answer: If a payment failure occurs but money was deducted, this is typically a temporary hold placed by your bank. The amount is usually released within 3-7 business days automatically. If it does not appear reversed after 7 days, please contact your bank with the transaction reference number, or reach out to our billing support with your account email and transaction ID.
+
+FAQ: How do I request a refund?
+Answer: Refund requests can be submitted through the billing support section of your account dashboard. Go to Settings > Billing > Request Refund. Refunds are typically processed within 5-10 business days back to your original payment method. Subscription refunds are eligible within 14 days of purchase for annual plans and within 48 hours for monthly plans.
+
+FAQ: How do I cancel my subscription?
+Answer: To cancel your subscription, go to Account Settings > Subscription > Cancel Plan. Your access will continue until the end of your current billing period. You will not be charged again after cancellation. You can reactivate at any time.
+
+FAQ: How do I upgrade or downgrade my plan?
+Answer: You can change your plan at any time from Settings > Billing > Change Plan. Upgrades take effect immediately and you are charged the prorated difference. Downgrades take effect at the start of your next billing cycle.
+
+FAQ: I was charged after cancelling my subscription.
+Answer: If you were charged after cancellation, this may have occurred if the cancellation was processed after your billing date. Please provide the cancellation confirmation email date and the charge date, and our billing team will issue a full refund within 3-5 business days.
+
+FAQ: How do I update my payment method?
+Answer: To update your credit card or payment method, go to Settings > Billing > Payment Methods. Click "Add New Method" to add a card or bank account. Set it as the default and remove the old one if desired. Changes take effect on your next billing cycle.
+
+FAQ: My invoice shows the wrong amount.
+Answer: If your invoice shows an incorrect amount, please do not pay and contact our billing team immediately at billing@supportflow.ai with your invoice number and account email. Our team will review and issue a corrected invoice within 1-2 business days.
+
+FAQ: What payment methods do you accept?
+Answer: We accept all major credit and debit cards (Visa, Mastercard, American Express, Discover), PayPal, and bank transfers for annual enterprise plans. All payments are processed securely through Stripe.
+
+FAQ: When is my subscription renewal date?
+Answer: You can find your next renewal date in Settings > Billing > Subscription Details. You will also receive an email reminder 7 days before your renewal date.
+
+FAQ: I want to switch from monthly to annual billing.
+Answer: You can switch to annual billing from Settings > Billing > Change Plan > Annual. Switching to annual gives you a 20% discount. Any remaining days on your monthly plan will be prorated and credited toward your annual plan.
+
+FAQ: How do I get a receipt or invoice for my payment?
+Answer: All payment receipts and invoices are automatically emailed to your registered email address. You can also download them anytime from Settings > Billing > Invoice History.
